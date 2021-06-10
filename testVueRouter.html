@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.2/vue.global.js'
+		integrity='sha512-REb0S2epbS0XtS28ifNa1haxmTZigXjB+Tx5IHCvXZndWB2RL431Vt1qONzFoe0dPwA8WGow+xxkQwhVr44nRg=='
+		crossorigin='anonymous'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.0.5/vue-router.global.js'
+		integrity='sha512-zs36PMn2alxQvu8lyQezNHQzG7ZSWCxPOmQFzg7KOWubE5M+9pEfL7TaBSiA8wPEd8ujvTCwWzBbCRpwRO3vzA=='
+		crossorigin='anonymous'></script>
+	<div id="app">
+		<h2>路由示範</h2>
+		{{text}}
+		<router-link to="/a">a</router-link>|
+		<router-link to="/b">b</router-link>
+		<router-view></router-view>
+	</div>
+
+	<script>
+		const componentA = {
+			template: `<div>A</div>`
+		}
+		const componentB = {
+			template: `<div>B</div>`
+		}
+		const app = Vue.createApp({
+			data() {
+				return {
+					counter: 0,
+					text: '這裡有一段文字'
+				}
+			}
+		});
+		// 路由設定
+		const router = VueRouter.createRouter({
+			// 網址路徑模式:使用網址 hash 的形式
+			history: VueRouter.createWebHashHistory(),
+			// 匯入路油表
+			routes: [
+				{
+					path: '/a',
+					component: componentA
+				},
+				{
+					path: '/b',
+					component: componentB
+				},
+			]
+		})
+		app.use(router)
+		app.mount('#app');
+	</script>
+</body>
+
+</html>
