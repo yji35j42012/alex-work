@@ -4,9 +4,20 @@
         <router-link to="/about">About</router-link>
     </div>
     <router-view />
-	<button type="button" class="btn btn-primary">Primary</button>
+    <button type="button" class="btn btn-primary">Primary</button>
+    {{ name }}
 </template>
 
+<script>
+export default {
+    data() {
+        return {
+            name: process.env.VUE_APP_NAME,
+        };
+    },
+};
+</script>
+
 <style lang="scss">
-@import 'bootstrap';
+@import "bootstrap";
 </style>
