@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<div id="optionApp">
+		<h3>option Api 應用</h3>
+		{{num}}
+		<button @click="clickHandler">按我</button>
+	</div>
+
+	<div class="compostitionApp">
+		<h3>compostition Api 應用</h3>
+		{{num}}
+		<button @click="clickHandler">按我</button>
+	</div>
+
+
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.2/vue.global.js'
+		integrity='sha512-REb0S2epbS0XtS28ifNa1haxmTZigXjB+Tx5IHCvXZndWB2RL431Vt1qONzFoe0dPwA8WGow+xxkQwhVr44nRg=='
+		crossorigin='anonymous'></script>
+
+	<script>
+		const optionApp = {
+			data() {
+				return {
+					num: 0
+				}
+			},
+			methods: {
+				clickHandler: function () {
+					this.num++
+				}
+			},
+			created() {
+				this.num = 1
+			}
+		}
+		Vue.createApp(optionApp).mount("#optionApp");
+
+
+		// import { ref, onMounted, createApp } from "";
+		const compostitionApp = {
+			setup() {
+				const num = ref(0);
+				// 生命週期
+				onMounted(() => {
+					num.value = 1
+				})
+
+				function clickHandler() {
+					num.value++
+				}
+
+				// 匯出方法、資料
+				return {
+					clickHandler,
+					num
+				}
+			}
+		}
+		Vue.createApp(compostitionApp).mount("#compostitionApp");
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<div id="app">
+
+
+		<div style="position: absolute; right: 0;">
+			<h2>生命週期</h2>
+			<p>生命週期介紹:
+				<a
+					href="https://cn.vuejs.org/v2/guide/instance.html#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%9B%BE%E7%A4%BA">生命週期</a>
+			</p>
+			<button @click="isShowing = !isShowing">
+				<span v-if="isShowing">隱藏元件</span>
+				<span v-else>顯示元件</span>
+			</button>
+			<hr>
+			<child v-if="isShowing">
+
+			</child>
+		</div>
+
+	</div>
+
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.2/vue.global.js'
+		integrity='sha512-REb0S2epbS0XtS28ifNa1haxmTZigXjB+Tx5IHCvXZndWB2RL431Vt1qONzFoe0dPwA8WGow+xxkQwhVr44nRg=='
+		crossorigin='anonymous'></script>
+
+	<script type="text/x-template" id="childarea">
+		<div>
+			<h4>{{text}}</h4>
+		</div>
+	</script>
+	<script>
+		const child = {
+			template: '#childarea',
+			data: function () {
+				return {
+					text: 'vue data 資料狀態'
+				}
+			},
+			beforeCreate() {
+				console.log(`beforeCreate! ${this.text}`);
+			},
+			created() {
+				console.log(`created! ${this.text}`);
+				alert(`created! ${this.text}`);
+			},
+			beforeMount() {
+				alert(`beforeMount! ${this.text}`);
+			},
+			mounted() {
+				alert(`mounted! ${this.text}`);
+			},
+			updated() {
+				console.log(`updated! ${this.text}`);
+			},
+			activated() {
+				alert(`activated! ${this.text}`);
+			},
+			deactivated() {
+				alert(`deactivated! ${this.text}`);
+			},
+			beforeUnmount() {
+				console.log(`beforeUnmount! ${this.text}`);
+			},
+			unmounted() {
+				console.log(`unmounted! ${this.text}`);
+			},
+		}
+		const app = {
+			data() {
+				return {
+					isShowing: false
+				}
+			},
+		}
+
+		Vue.createApp(app).component('child', child).mount("#app");
+	</script>
+</body>
+
+</html>

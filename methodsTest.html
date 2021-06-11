@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<div id="app">
+		<div style="display: none;">
+			<h2>{{name}}</h2>
+			<ul>
+				<li v-for="list in lists">
+					{{list.name}}/
+					{{list.price}}
+					<button @click="addCard(list)">加入購物車</button>
+				</li>
+			</ul>
+
+			<h3>購物車項目</h3>
+			<ul>
+				<li v-for="item in cards">
+					{{item.name}}
+				</li>
+			</ul>
+
+
+			<h4>總金額:{{sum}}</h4>
+
+
+
+			<h3>filiter</h3>
+			{{filiterTest(sum)}}
+		</div>
+
+
+
+		<div style="position: absolute; right: 0; display: none;">
+			<h2>coumuted</h2>
+			<ul>
+				<li v-for="list in lists">
+					{{list.name}}/
+					{{list.price}}
+					<button @click="addCard(list)">加入購物車</button>
+				</li>
+			</ul>
+			<h3>購物車項目</h3>
+			<ul>
+				<li v-for="item in cards">
+					{{item.name}}
+				</li>
+			</ul>
+
+			<div>total值: {{total}}</div>
+			<input type="text" v-model="searchInput">
+			<ul>
+				<li v-for="item in filterSearch">
+					{{item.name}}/
+					{{item.price}}
+				</li>
+			</ul>
+		</div>
+
+		<div style="position: absolute; right: 0;">
+			<h2>Computed 運算之 Getter, Setter</h2>
+			<ul>
+				<li v-for="list in lists">
+					{{list.name}}/
+					{{list.price}}
+					<button @click="addCard(list)">加入購物車</button>
+				</li>
+			</ul>
+			<h3>購物車項目</h3>
+			<ul>
+				<li v-for="item in cards">
+					{{item.name}}
+				</li>
+			</ul>
+
+			<div>total值: {{total2}}</div>
+			<input type="text" v-model="searchInput">
+			<ul>
+				<li v-for="item in filterSearch">
+					{{item.name}}/
+					{{item.price}}
+				</li>
+			</ul>
+
+			<input type="number" v-model.number="num">
+			<button @click="total2=num">更新</button>
+			<br>
+			total2值 :{{total2}} <br>
+			sum2的值: {{sum2}}
+		</div>
+
+	</div>
+
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.2/vue.global.js'
+		integrity='sha512-REb0S2epbS0XtS28ifNa1haxmTZigXjB+Tx5IHCvXZndWB2RL431Vt1qONzFoe0dPwA8WGow+xxkQwhVr44nRg=='
+		crossorigin='anonymous'></script>
+
+
+	<script>
+		const app = {
+			data() {
+				return {
+					name: "mehtods Test",
+					lists: [
+						{
+							name: '蛋餅',
+							price: 25
+						},
+						{
+							name: '蘿蔔糕',
+							price: 30
+						},
+						{
+							name: '小籠包',
+							price: 40
+						},
+						{
+							name: '飯糰',
+							price: 35
+						}
+					],
+					cards: [],
+					sum: 0,
+					sum2: 0,
+					searchInput: '',
+					num: 10
+				}
+			},
+			methods: {
+				addCard: function (list) {
+					this.cards.push(list);
+					this.sumHandler();
+				},
+				sumHandler: function () {
+					let total = 0;
+					this.cards.forEach(item => {
+						total += item.price;
+					})
+					this.sum = total;
+				},
+				filiterTest(price) {
+					return `NT$ ${price}`
+				}
+			},
+			computed: {
+				total() {
+					let total = 0;
+					this.cards.forEach(item => {
+						total += item.price;
+					})
+					return total;
+				},
+				total2: {
+					get() {
+						let total = 0;
+						this.cards.forEach(item => {
+							total += item.price;
+						})
+						return this.sum2 || total;
+					},
+					set(val) {
+						console.log(val);
+						this.sum2 = val
+					}
+				},
+				filterSearch() {
+					return this.lists.filter(item => {
+						return item.name.match(this.searchInput);
+					});
+				}
+			}
+		}
+
+		Vue.createApp(app).mount("#app");
+	</script>
+</body>
+
+</html>

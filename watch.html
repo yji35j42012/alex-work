@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<div id="app">
+
+
+		<div style="position: absolute; right: 0;">
+			<h2>watch 監聽單一變數</h2>
+			<label for="name">名字須超過十個字</label>
+			<input type="text" id="name" v-model="tempName">
+			<p>result: {{result}}</p>
+			<p>name: {{name}}</p>
+
+			<label for="productName">產品名稱</label>
+			<input type="text" v-model="productName">
+			<label for="productPrice">產品價格</label>
+			<input type="text" v-model="productPrice">
+			<label for="productVegan">素食</label>
+			<input type="checkbox" v-model="productVegan">
+
+			<p>coumputed result2: {{result2}}</p>
+			<p>watch result3: {{result3}}</p>
+
+			<h2>watch 深層監聽</h2>
+			<label for="productName">產品名稱</label>
+			<input type="text" v-model="product.name">
+			<label for="productPrice">產品價格</label>
+			<input type="text" v-model="product.price">
+			<label for="productVegan">素食</label>
+			<input type="checkbox" v-model="product.vegan">
+			<p>result4: {{result4}}</p>
+		</div>
+
+	</div>
+
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.2/vue.global.js'
+		integrity='sha512-REb0S2epbS0XtS28ifNa1haxmTZigXjB+Tx5IHCvXZndWB2RL431Vt1qONzFoe0dPwA8WGow+xxkQwhVr44nRg=='
+		crossorigin='anonymous'></script>
+
+
+	<script>
+		const app = {
+			data() {
+				return {
+					name: '',
+					tempName: '',
+					result: '',
+					result3: '',
+					result4: '',
+					// 單一產品
+					productName: '蛋餅',
+					productPrice: 30,
+					productVegan: false,
+					product: {
+						name: '蛋餅',
+						price: 25,
+						Vegan: false
+					},
+					products: [
+						{
+							name: '蛋餅',
+							price: 25
+						},
+						{
+							name: '蘿蔔糕',
+							price: 30
+						},
+						{
+							name: '小籠包',
+							price: 40
+						},
+						{
+							name: '飯糰',
+							price: 35
+						}
+					],
+					cards: [],
+					sum: 0,
+				}
+			},
+			methods: {
+				addCard: function (list) {
+					this.cards.push(list);
+					this.sumHandler();
+				},
+				sumHandler: function () {
+					let total = 0;
+					this.cards.forEach(item => {
+						total += item.price;
+					})
+					this.sum = total;
+				},
+				filiterTest(price) {
+					return `NT$ ${price}`
+				}
+			},
+			computed: {
+				result2() {
+					return `媽媽買了 ${this.productName}，總共花費${this.productPrice}元，另外這 ${this.productVegan ? '是' : '不是'} 素食的`
+				}
+			},
+			watch: {
+				product: {
+					handler(n, o) {
+						console.log(n, o);
+						this.result4 = `媽媽買了 ${this.product.name}，總共花費${this.product.price}元，另外這 ${this.product.vegan ? '是' : '不是'} 素食的`
+					},
+					deep: true,
+				},
+				productName() {
+					this.result3 = `媽媽買了 ${this.productName}，總共花費${this.productPrice}元，另外這 ${this.productVegan ? '是' : '不是'} 素食的`
+				},
+				productPrice() {
+					this.result3 = `媽媽買了 ${this.productName}，總共花費${this.productPrice}元，另外這 ${this.productVegan ? '是' : '不是'} 素食的`
+				},
+				productVegan() {
+					this.result3 = `媽媽買了 ${this.productName}，總共花費${this.productPrice}元，另外這 ${this.productVegan ? '是' : '不是'} 素食的`
+				},
+				tempName(n, o) {
+					console.log(n, o);
+					if (n.length >= 10) {
+						this.result = `文字長度為 ${n.length} 個字，將儲存至變數中`
+						this.name = n
+					} else {
+						this.result = `輸入文字僅有 ${n.length} 個字，上一次有 ${o.length} 個字`
+					}
+				}
+			}
+			// }
+		}
+
+		Vue.createApp(app).mount("#app");
+	</script>
+</body>
+
+</html>
