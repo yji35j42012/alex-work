@@ -39,6 +39,7 @@
         <router-view></router-view>
     </div>
     <router-link to="/newPage/routerNav">/newPage/routerNav</router-link>
+    {{name}}
 </template>
 
 <script>

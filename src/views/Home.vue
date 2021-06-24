@@ -30,6 +30,7 @@
                 驗證
             </button>
             <button class="btn btn-primary" type="submit">Submit</button>
+
         </Form>
     </div>
 </template>
